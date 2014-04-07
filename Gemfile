@@ -12,6 +12,7 @@ group :development, :test do
 
 end
 gem 'bootstrap-sass'
+gem 'bcrypt-ruby'
 group :test do
 gem 'guard-spork'
 gem 'spork'
