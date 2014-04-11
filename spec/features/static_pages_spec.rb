@@ -14,34 +14,34 @@ subject {page}
   describe "Help page" do
 
     it "should have the h1 'Help' " do
-      visit '/static_pages/help'
+      visit help_path
       page.should have_selector('h1', :text => 'Help')
     end
 
     it "should have the right title" do
-      visit '/static_pages/help'
+      visit help_path
       page.should have_title("#{tytul} | Help")
     end
   end
 
   describe "About Page" do
     it "Should have the h1 'About Us' " do
-      visit 'static_pages/about'
+      visit abuout_path
       page.should have_selector('h1', :text => 'About Us')
     end
 
     it "Should have the title 'About Us' " do
-      visit '/static_pages/about'
+      visit abuout_path
       page.should have_title("#{tytul} | About Us")
     end
   end
   describe "Contact" do
     it "Should have the right title" do
-      visit '/static_pages/contact'
+      visit contact_path
       page.should have_title("#{tytul} | Contact")
     end
     it "should have the h1'Contact'" do
-      visit '/static_pages/contact'
+      visit contact_path
       page.should have_selector('h1', :text => 'Contact')
     end
   end
