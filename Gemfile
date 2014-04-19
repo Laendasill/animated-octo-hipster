@@ -13,6 +13,8 @@ group :development, :test do
 end
 gem 'bootstrap-sass'
 gem 'bcrypt-ruby'
+gem 'faker'
+gem 'bootstrap-will_paginate'
 group :test do
 gem 'guard-spork'
 gem 'spork'

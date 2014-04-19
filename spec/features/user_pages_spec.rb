@@ -1,20 +1,44 @@
 require 'spec_helper'
-
+include Sign
 describe "UserPages" do
   
   subject{ page }
     
-
+  describe "index" do
+    before do
+      sign_in FactoryGirl.create(:user)
+      FactoryGirl.create(:user, name: "Bob", email: "bob@example.com")
+      FactoryGirl.create(:user, name: "Ben", email: "Ben@example.com")
+      visit users_path
+    end
+    
+    it { should have_title("All users") }
+    it { should have_content("All users") }
+      
+  describe "pagination" do
+    
+    before(:all) { 30.times { FactoryGirl.create(:user) }}
+    after(:all) { User.delete_all }
+      
+    it { should have_selector('div.pagination') }
+      
+      it "Should list each user" do
+        User.paginate(page: 1).each do |user|
+          expect(page).to have_selector('li', text: user.name)
+        end
+      end
+  end
+  end
     
     describe "signup" do
       
-    before {visit signup_path }
+    before { visit signup_path }
     
     
   let(:submit) {"Create my account" }
     
   it { should have_content("Sign up") }
-  it { shoild have_text(full_title("Sign up")) }
+  it { should have_title(full_title("Sign up")) }
     describe "with invalid information" do
       it "should not create a user" do
         expect { click_button submit }.not_to change(User, :count)
@@ -39,8 +63,8 @@ describe "UserPages" do
       it { should have_title('Sign up') }
       it { should have_content('error') }
     end
-    end
-end
+    
+
     
     describe "after saving user" do
       
@@ -52,22 +76,23 @@ end
       it { should have_selector('div.alert.alert-success', text: 'Welcome')}
       
     end
-    
+      
     describe "edit" do
     let(:user) { FactoryGirl.create(:user) }
     before { visit edit_user_path(user) }
       
-      describe do
+      describe "with vaild information" do
         
-        it { should have_content("Update your profile") }
+        it { should have_selector('h1', text: "Update your profile") }
         it { should have_title("Edit user") }
         it { should have_link('change', href: "http://gravatar.com/emails")}
       end
-      
+      end
       describe "With invalid information" do
         before { click_button "Save changes" }
           
         it { should have_content('error') }
       end 
+end
 end
 end
