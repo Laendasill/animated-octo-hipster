@@ -16,8 +16,9 @@ gem 'bcrypt-ruby'
 gem 'faker'
 gem 'bootstrap-will_paginate'
 group :test do
-gem 'guard-spork'
-gem 'spork'
+
+
+gem "spork-rails"
 
 gem 'rb-inotify'
 gem 'libnotify' 

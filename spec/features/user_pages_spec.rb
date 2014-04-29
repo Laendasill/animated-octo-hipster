@@ -4,6 +4,24 @@ describe "UserPages" do
   
   subject{ page }
     
+    
+    describe "profile page" do
+      let(:user) { FactoryGirl.create(:user) }
+      let!(:m1) { FactoryGirl.create(:micropost, user: user, content: "Foo") }
+      let!(:m2) { FactoryGirl.create(:micropost, user: user, content: "Bar") }
+        
+      before { visit user_path(user) }
+        
+      it { should have_content(user.name) }
+      it { should have_title(user.name) }
+        
+        describe "Microposts" do
+          it { should have_content(m1.content) }
+          it { should have_content(m2.content) }
+          it { should have_content(user.microposts.count) }
+        end 
+      
+    end
   describe "index" do
     before do
       sign_in FactoryGirl.create(:user)
@@ -47,10 +65,10 @@ describe "UserPages" do
     
     describe "with valid information" do
       before do
-        fill_in "Name",   with: "Example User"
-        fill_in "Email",  with: "user@example.com"
-        fill_in "Password", with: "foobar"
-        fill_in "Confirmation", with: "foobar"
+        fill_in "user_name",   with: "Example User"
+        fill_in "user_email",  with: "user@example.com"
+        fill_in "user_password", with: "foobar"
+        fill_in "user_password_confirmation", with: "foobar"
       end
       
       it "should create a user" do
@@ -60,7 +78,7 @@ describe "UserPages" do
       describe "after submission" do
       before {click_button submit }
       
-      it { should have_title('Sign up') }
+      it { should_not have_title('Sign up') }
       it { should have_content('error') }
     end
     
